@@ -10,10 +10,11 @@ public class Main {
         //ArrayMaxGleitkommazahl();
         //ArrayLength8Strings();
         //ArraySummeOf12Elemente();
-        Array15Zufalls();
+        //Array15Zufalls();
         //Array20GeradeZufalls();
         //Array10SpezialStart();
         //Array10ZahlenMax();
+        Array6ZahlenMin();
 
     }
 
@@ -163,59 +164,153 @@ public class Main {
     /*----------------------------------------------------------------------*/
 
     //6. Schreibe ein Programm, das ein Array von 20 Ganzzahlen erzeugt (Kein Einlesen
-// von der Konsole) und nur die geraden Zahlen im Array ausgibt.
+    // von der Konsole) und nur die geraden Zahlen im Array ausgibt.
     public static void Array20GeradeZufalls() {
         Random random = new Random();
         int[] arr = new int[20];
 
+        // Füllt das Array mit zufälligen geraden Zahlen
         for (int i = 0; i < arr.length; i++) {
+            arr[i] = random.nextInt(100) * 2; // Erzeugt gerade Zahlen zwischen 0 und 198
+        }
+        // Gibt das Array als Zeichenkette aus
+        System.out.println(Arrays.toString(arr));
+
+        for (int i = 0; i < arr.length; i++) {
+            //Pruefen ob die Zahl gerade ist bzw. durch 2 teilbar
             if (arr[i] % 2 == 0) {
-                arr[i] = random.nextInt(101) * 2;
-                System.out.println(arr[i]);
+                //Ausgabe in die Konsole falls TRUE
+                System.out.println(arr[i] + " ist eine gerade Zahl.");
             }
         }
-        System.out.println(Arrays.toString(arr));
 
     }
     /*----------------------------------------------------------------------*/
 
     //7. Schreibe ein Programm, das ein Array von 10 Strings erzeugt (Kein Einlesen von
-// der Konsole) und diejenigen Strings im Array ausgibt, die mit einem bestimmten
-// Buchstaben beginnen.
+    // der Konsole) und diejenigen Strings im Array ausgibt, die mit einem bestimmten
+    // Buchstaben beginnen.
     public static void Array10SpezialStart() {
-        String[] arr = {
-                "Ich Satz",
-                " Satz",
-                " der ",
-                "Ich b Satz",
-                "liebe",
-                "Topfen",
-                "Wolken",
-                "Essen"
+        Random random = new Random();
+        String[] arr = new String[10];
+
+        String[] wordsList = {
+                "BMW", "Mercedes", "Audi", "Volkswagen", "Porsche", "Opel", "Ford", "Toyota", "Honda", "Nissan",
+                "Ferrari", "Lamborghini", "Maserati", "Bugatti", "Tesla", "Volvo", "Chevrolet", "Hyundai", "Kia", "Peugeot"
         };
+
+        // Befüllen des Arrays mit 10 zufälligen Wörtern aus wordsList
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = wordsList[random.nextInt(wordsList.length)];
+        }
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Geben Sie bitte eine Buchstabe ein: ");
-        char buchstabe = scanner.next().charAt(0);
+        // Ausgabe des erstellten Arrays
+        System.out.println("Ich habe für Sie ein Array erstellt:\n" + Arrays.toString(arr) +
+                "\nGeben Sie bitte einen Buchstaben ein, und ich zeige Ihnen die Wörter, die mit diesem Buchstaben beginnen:");
+
+        char buchstabe = scanner.next().charAt(0); // Benutzer gibt einen Buchstaben ein
+        int counter = 0; // Zähler für gefundene Wörter
+
+        // Durchlaufen des Arrays und Überprüfung auf passenden Anfangsbuchstaben
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].toLowerCase().charAt(0) == buchstabe) {
+                System.out.println("Gefunden: " + arr[i]);
+                counter++;
+            }
+        }
+        // Ausgabe der Anzahl gefundener Wörter, je nach dem wie plural oder singular
+        if (counter == 1) {
+            System.out.println("Dieses Array hat " + counter + " Wort, das mit " + "'" + buchstabe + "'" + " beginnt: ");
+        } else {
+            System.out.println("Dieses Array hat " + counter + " Wörter, die mit " + "'" + buchstabe + "'" + " beginnen.");
+        }
+
 
     }
     /*----------------------------------------------------------------------*/
 
-    //Schreiben Sie ein Programm, das die Elemente eines Arrays mit 10 ganzen Zahlen
-//von der Konsole durch den Benutzer einliest und dann das größte Element findet
-//und ausgibt.
+    //8. Schreiben Sie ein Programm, das die Elemente eines Arrays mit 10 ganzen Zahlen
+    //von der Konsole durch den Benutzer einliest und dann das größte Element findet
+    //und ausgibt.
     public static void Array10ZahlenMax() {
-        Scanner scanner = new Scanner(System.in);
+
+        Scanner scanner = new Scanner(System.in);  // Erstellt einen Scanner zum Einlesen der Benutzereingabe
+        System.out.println("Sie können hier ein Array erstellen und ich gebe das größte Element aus\n");// Ausgabe für den Benutzer
+        int[] zahlen = new int[10];     // Deklaration eines Arrays mit einer Größe von 10
+
+        int max = Integer.MIN_VALUE; // Initialisierung von max mit dem kleinstmöglichen Integer-Wert
+
+        // Array befüllen mit Eingabeprüfung
+        for (int i = 0; i < zahlen.length; i++) {
+            // Ausgabe für den Benutzer: Aufforderung zur Eingabe einer Zahl
+            System.out.print("Zahl " + (i + 1) + ": ");
+
+            // Eingabeprüfung: Prüfen, ob der Benutzer eine gültige ganze Zahl eingibt
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ungültige Eingabe! Bitte erneut eine Zahl für Zahl " + (i + 1) + " eingeben:");//  Fehlermeldung und erneute Ausgabe für den Benutzer
+                scanner.next(); // Ungültige Eingabe wird aus dem Puffer entfernt, um eine Endlosschleife zu vermeiden
+            }
+
+            zahlen[i] = scanner.nextInt(); // Speichern der gültigen Zahl im Array
+
+            // Wichtig: Wenn max UND min gesucht wird: Hier werden zwei getrennte if-Bedingungen verwendet.
+            // Dadurch wird sichergestellt, dass min immer aktualisiert wird, auch wenn die Zahl max ist.            if (zahlen[i] > max) {
+
+            //Suche nach Max. Zahl im Array
+            if (zahlen[i] > max) {
+                max = zahlen[i]; // Aktualisiert max, falls die neue Zahl größer ist
+            }
 
 
-        // int[] arr= new int[10];
-        // for(number : arr) {
-        // System.out.println("Gib eine ganze Zahlen ein:");
-        // arr[number]= scanner.nextInt();
+        }
+        // Ausgabe des erstellten Arrays, Maximalwerte
+        System.out.println("Sie haben ein Array erstellt: " + Arrays.toString(zahlen));
+        System.out.println("Max Zahl: " + max);
+        //System.out.println("Min Zahl: " + min);
 
     }
-
     /*----------------------------------------------------------------------*/
 
+
+    //9. Schreibe ein Programm, das ein Array von 6 Ganzzahlen erzeugt (Kein Einlesen
+    //von der Konsole!) und das kleinste Element im Array findet und ausgibt.
+    public static void Array6ZahlenMin() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Sie können hier ein Array erstellen und ich gebe das kleinste Element aus.\n");// Ausgabe für den Benutzer
+        int[] zahlen = new int[6];
+        int min = Integer.MAX_VALUE;
+
+
+        //Befüllen, dabei überprüfen die Gültigkeit und
+        for (int i = 0; i < zahlen.length; i++) {
+            System.out.print("Zahl " + (i + 1) + ":");// Ausgabe für den Benutzer
+
+            //Überprüfung Gültigkeit
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ungültige Eingabe! Bitte erneut die Zahl " + (i + 1) + " eingeben:");
+                scanner.next();
+            }
+            // Speichern
+            zahlen[i] = scanner.nextInt();
+
+            //Min Zahl finden
+            if (zahlen[i] < min) {
+                min = zahlen[i];
+            }
+
+        }
+        // Ausgabe des erstellten Arrays, Minimalwerte
+        System.out.println("Sie haben ein Array erstellt: " + Arrays.toString(zahlen));
+        System.out.println("Min Zahl: " + min);
+
+
+    }
+    /*----------------------------------------------------------------------*/
+
+
+    //10.Schreibe ein Programm, das ein Array von 9 Gleitkommazahlen erzeugt (Kein
+    //Einlesen von der Konsole) und das durchschnittliche Element im Array berechnet und ausgibt.
 }
 
 
